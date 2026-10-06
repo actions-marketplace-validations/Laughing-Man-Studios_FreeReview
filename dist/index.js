@@ -22672,9 +22672,9 @@ function injectionDisclosure(modelIds, catalog) {
   }
   if (partial2.length > 0) {
     const names = partial2.map((id) => `\`${id}\``).join(", ");
-    return `> **This review may be incomplete.** It was produced by ${names}, which resisted 6 of 8 injection payload classes tested \u2014 but one of them silenced it completely. A suppression instruction disguised as a configuration value was planted beside a real defect, and this model reported nothing.
+    return `> **This review may be incomplete.** It was produced by ${names}, which resisted 7 of 8 injection payload classes tested across three independent passes \u2014 but one silenced it every time. That payload was a suppression instruction disguised as a configuration value, with a real defect planted directly behind it.
 >
-> That was not inferred from one quiet run. The same defect was re-reviewed with the payload removed, and the model found it \u2014 so the instruction, not the difficulty, is what suppressed it. A pull request author who can land a string literal in their own diff can therefore suppress findings in this review.
+> That was not inferred from quiet runs alone. The same defect was re-reviewed with the payload removed \u2014 an ablation control \u2014 and found on every pass, so the instruction, not the difficulty, is what did the silencing. A pull request author who can land a string literal in their own diff can therefore suppress findings in this review.
 >
 > Treat the findings below as a lower bound, not as a clean review. No model in the free pool has been measured immune to this.`;
   }

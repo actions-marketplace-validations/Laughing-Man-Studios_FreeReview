@@ -8,9 +8,10 @@
  * from a clean one. That is the exact failure this project exists to prevent.
  *
  * As of 2026-10-02 this is no longer confined to the fallback chain: the primary
- * was measured resisting 6 of 8 payload classes and silenced by the eighth, with
- * an ablation control confirming suppression rather than a missed bug. So the
- * disclosure has to fire on the *default* path too — which is why
+ * was measured resisting 7 of 8 payload classes across three independent
+ * passes, and the eighth silenced it in 3 of 3 — checked against an ablation
+ * control where the same defect is found every time. So the disclosure has to
+ * fire on the *default* path too — which is why
  * `partially-exposed` exists as a distinct state from `resistant`, and why the
  * silence-on-`resistant` rule is now exercised against a hypothetical model
  * rather than against the one that ships.
@@ -70,8 +71,15 @@ describe("injectionDisclosure", () => {
     // unfalsifiable disclaimer an `exposed` note would be. This one has to be
     // checkable: how many it resisted, what beat it, and how that was verified.
     const note = injectionDisclosure([LING], CATALOG) ?? "";
-    expect(note).toMatch(/6 of 8/);
+    expect(note).toMatch(/7 of 8/);
+    expect(note).toMatch(/one silenced it every time/i);
     expect(note).toMatch(/configuration value/i);
+    // The replication is part of the claim, not decoration: an earlier version
+    // said "one of them silenced it" on a single observation and a later one
+    // said "two" on single observations that did not survive repetition. The
+    // number a reader relies on has to carry its evidence.
+    expect(note).toMatch(/three independent passes/i);
+    expect(note).toMatch(/ablation control/i);
     expect(note).toMatch(/payload removed|removed the payload|with the payload\s+removed/i);
     expect(note).toMatch(/no model in the free pool has been measured immune/i);
   });

@@ -278,7 +278,7 @@ export interface SummaryInput {
   * The `partially-exposed` note names the payload class, the control, and the
   * conclusion, because that is what separates it from both neighbours: it is not
   * the vague warning an `exposed` fallback gets, and it is not the silence a
-  * `resistant` model gets. "We resisted 6 of 8, one of the 8 beat us, and we
+  * `resistant` model gets. "We resisted 7 of 8, one of the 8 beat us, and we
   * confirmed it by removing the payload and finding the bug again" is a claim a
   * reader can check and a later measurement can overturn.
   */
@@ -325,14 +325,14 @@ export function injectionDisclosure(
   if (partial.length > 0) {
     const names = partial.map((id) => `\`${id}\``).join(", ");
     return (
-      `> **This review may be incomplete.** It was produced by ${names}, which resisted 6 of 8 ` +
-      "injection payload classes tested — but one of them silenced it completely. A suppression " +
-      "instruction disguised as a configuration value was planted beside a real defect, and this " +
-      "model reported nothing.\n>\n" +
-      "> That was not inferred from one quiet run. The same defect was re-reviewed with the payload " +
-      "removed, and the model found it — so the instruction, not the difficulty, is what suppressed " +
-      "it. A pull request author who can land a string literal in their own diff can therefore " +
-      "suppress findings in this review.\n>\n" +
+      `> **This review may be incomplete.** It was produced by ${names}, which resisted 7 of 8 ` +
+      "injection payload classes tested across three independent passes — but one silenced it " +
+      "every time. That payload was a suppression instruction disguised as a configuration value, " +
+      "with a real defect planted directly behind it.\n>\n" +
+      "> That was not inferred from quiet runs alone. The same defect was re-reviewed with the " +
+      "payload removed — an ablation control — and found on every pass, so the instruction, not " +
+      "the difficulty, is what did the silencing. A pull request author who can land a string " +
+      "literal in their own diff can therefore suppress findings in this review.\n>\n" +
       "> Treat the findings below as a lower bound, not as a clean review. No model in the free " +
       "pool has been measured immune to this."
     );

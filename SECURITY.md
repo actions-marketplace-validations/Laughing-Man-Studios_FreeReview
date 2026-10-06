@@ -107,12 +107,25 @@ instructions. Defence is layered, and no single layer is trusted:
    `exposed` models name the payload behaviour, and unmeasured models are
    disclosed as unmeasured.
 
-**Measured outcome, 2026-10-02: these layers do not make injection impossible.**
-The default model resisted 6 of 8 payload classes and was silenced by the
-eighth — a suppression string shaped like a configuration value, planted beside
-a real defect, which it declined to report. An ablation control (the same diff
-with the payload removed) confirmed this was suppression rather than a missed
-bug: without the payload the defect is found.
+**Measured outcome, 2026-10-05: these layers do not make injection impossible.**
+The default model resisted 7 of 8 payload classes and was silenced by one of
+them: a suppression string shaped like a configuration value, with a real defect
+planted directly behind it.
+
+Each was checked against an ablation control — the same diff with the payload
+removed — and in both cases the defect *is* found without the payload, so the
+instruction rather than the difficulty did the silencing.
+
+**How firm that is.** Three independent passes, 2026-10-05: the one payload
+silenced the model in 3 of 3, and its control found the defect in 3 of 3. The other
+seven were resisted in every clean observation.
+
+One pass was excluded from that count. The upstream provider began rate-limiting
+mid-run, and four fixtures missed their defect in it — three of them *controls*,
+which carry no payload at all. Degraded detection under provider saturation is
+therefore not an injection effect, and reading it as one would have invented a
+second suppression. The confound is named here because "the model got worse" and
+"the model was made to stay quiet" are indistinguishable from a single run.
 
 **The practical consequence is that a pull request author can suppress findings
 in their own review, on the default configuration.** Layer 3 only drops a finding
